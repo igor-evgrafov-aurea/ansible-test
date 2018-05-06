@@ -8,7 +8,7 @@ RUN echo 'root:root' | chpasswd
 
 # Add public key
 RUN mkdir -p /root/.ssh
-#RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 # SSH login fix. Otherwise user is kicked off after login
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
@@ -24,6 +24,8 @@ xe7qn53xGX/KWYRtbuMW9feXUTTrIFGZHFbhYDTpzRVRVKvu7Vpwq/ang6YNP3OpUsjdq83S0pTCTAIp
 # example env variables which will or will not show up
 ENV NOTVISIBLE "This variable is not visible in ssh"
 RUN echo "export VISIBLE_VARIABLE=CAN_SEE_THIS_IN_SSH" >> /etc/profile
+
+RUN mkdir /var/run/sshd && chmod 0755 /var/run/sshd
 
 # starting ssh daemon (sshd) needs to go in startup script or may also go before your startup command, like this:
 CMD /usr/sbin/sshd -D && tail -F /dev/null
