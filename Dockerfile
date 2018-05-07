@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 # install ssh server
-RUN apt-get update && apt-get install -y openssh-server
+RUN apt-get update && apt-get install -y openssh-server python-minimal python-simplejson
 
 # Add public key
 RUN mkdir -p /root/.ssh
